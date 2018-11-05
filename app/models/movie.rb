@@ -1,5 +1,5 @@
 class Movie < ApplicationRecord
   has_many :rentals
 
-  validate :name, presence: true
+  validates :title, presence: true, uniqueness: { scope: :release_date }
 end
