@@ -13,25 +13,27 @@ class MoviesController < ApplicationController
     # movie.available_inventory = movie.calculate_available_inventory
 
     if movie
-      render json: movie.as_json(except: [:created_at, :updated_at]), status: :ok, status: :ok
+      render json: movie.as_json(except: [:created_at, :updated_at]), status: :ok
     else
       render_error(:not_found, {movie_id: ["no such movie"]})
     end
   end
 
   def create
-    movie = Movie.new(movie_params)
+    movie = Movie.new(title: params[:title], release_date: params[:release_date], overview: params[:overview], inventory: params[:inventory])
 
     if movie.save
-      render json: { id: movie.id }
+      movie_id = movie.id
+      render json: movie.as_json(only: :id), status: :ok
     else
+      # QUESTION: is this ok as an error message?
       render_error(:bad_request, movie.errors.messages)
     end
   end
 
   private
-  def movie_params
-    params.require(:movie).permit(:id, :title, :overview, :release_date, :inventory)
-  end
+  # def movie_params
+  #   params.require(:movie).permit(:id, :title, :overview, :release_date, :inventory)
+  # end
 
 end
