@@ -3,7 +3,11 @@
 one:
   check_in: 2018-11-05
   check_out: 2018-11-05
+  movie_id: one
+  customer_id: one
 
 two:
   check_in: 2018-11-05
   check_out: 2018-11-05
+  movie_id: two
+  customer_id: two
