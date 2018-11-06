@@ -21,8 +21,5 @@ class Movie < ApplicationRecord
     # QUESTION: error handling for successful or failed save?
     self.save
 
-    # necessary? or do this outside of function?
-
-    return self.available_inventory
   end
 end

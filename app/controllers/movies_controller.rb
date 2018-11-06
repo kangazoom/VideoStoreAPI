@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
 
     if movie
       # NOTE: might need to tweak the code a little to get it working
-      movie.available_inventory
+      movie.calculate_available_inventory
 
       render json: movie.as_json(except: [:created_at, :updated_at]), status: :ok
     else
