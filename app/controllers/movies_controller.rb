@@ -9,6 +9,9 @@ class MoviesController < ApplicationController
     movie_id = params[:id]
     movie = Movie.find_by(id: movie_id)
 
+    # TODO: uncomment below once we know more about rentals
+    # movie.available_inventory = movie.calculate_available_inventory
+
     if movie
       render json: movie.as_json(except: [:created_at, :updated_at]), status: :ok, status: :ok
     else
