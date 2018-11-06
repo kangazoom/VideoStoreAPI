@@ -2,7 +2,7 @@ class MoviesController < ApplicationController
 
   def index
     movies = Movie.all
-    render json: jsonify(movies), status: :ok
+    render json: movies.as_json(only: [:id, :title, :release_date]), status: :ok
   end
 
   def show
@@ -10,10 +10,8 @@ class MoviesController < ApplicationController
     movie = Movie.find_by(id: movie_id)
 
     if movie
-      render json: jsonify(movie), status: :ok
+      render json: movie.as_json(except: [:created_at, :updated_at]), status: :ok, status: :ok
     else
-
-      #render json: { errors: { movie_id: ["No such movie"]}}, status: :not_found
       render_error(:not_found, {movie_id: ["no such movie"]})
     end
   end
@@ -33,7 +31,4 @@ class MoviesController < ApplicationController
     params.require(:movie).permit(:id, :title, :overview, :release_date, :inventory)
   end
 
-  def jsonify(movie_data)
-    return movie_data.as_json(except: [:created_at, :updated_at])
-  end
 end
