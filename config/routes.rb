@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :customers, only: [:index]
   resources :movies, only: [:index, :show, :create]
   # TODO: rentals routes
+  resources :rentals, only: [:create, :update]
 end
