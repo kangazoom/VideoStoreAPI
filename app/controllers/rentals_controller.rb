@@ -8,6 +8,7 @@ class RentalsController < ApplicationController
 
   def checkout
 
+
     check_out = Date.today.to_s
     due_date = (Date.today+7).to_s
 
