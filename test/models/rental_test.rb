@@ -1,9 +1,9 @@
 require "test_helper"
 
 describe Rental do
-  let(:rental) { Rental.new }
+  let(:rental) {Movie.first}
 
   it "must be valid" do
-    value(rental).must_be :valid?
+    expect(rental.valid?).must_equal true
   end
 end
