@@ -1,11 +1,9 @@
 class Rental < ApplicationRecord
-  belongs_to :movies
-  belongs_to :customers
+  belongs_to :movie
+  belongs_to :customer
 
   validates :customer_id, presence: true
   validates :movie_id, presence: true
-
-  
 
   def checked_out?()
     return self.checkedout == true
@@ -19,4 +17,5 @@ class Rental < ApplicationRecord
   #
   #   return rented_inventory
   # end
+
 end

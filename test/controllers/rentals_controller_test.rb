@@ -5,14 +5,15 @@ describe RentalsController do
   describe "rentals checkout" do
     let(:rental_data) {
           {
-            movie_id: 1,
-            customer_id: 1,
+            movie_id: Movie.first.id,
+            customer_id: Customer.first.id,
           }
         }
     it "must successfully add a new rental when given valid data" do
-      expect { post checkout_path, params: rental_data }.must_change "Rental.count"
-
+      post checkout_path, params: rental_data
+      expect(Rental.count).must_equal 3
       must_respond_with :success
+      expect(Movie.first.available_inventory).must_equal 0
     end
 
 
