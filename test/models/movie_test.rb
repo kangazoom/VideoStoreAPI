@@ -95,13 +95,26 @@ describe Movie do
   end
 
   # -- custom model methods -- #
-  # describe 'calculate_checked_out_rentals' do
-  #   it 'correctly calculates checked out rentals' do
-  #   end
-  #
-  #   it 'ignores checked in rental entries' do
-  #   end
-  # end
+  describe 'calculate_checked_out_rentals' do
+    it 'correctly calculates checked out rentals' do
+      rented_inventory = rentals.sum { |rental| rental.checked_out==true }
+
+      calculation = movie.calculate_checked_out_rentals
+
+      expect(calculation).must_equal rented_inventory
+    end
+
+    it 'ignores checked in rental entries' do
+      all_rentals = movie.rentals.length
+      checked_in_rentals = rented_inventory = rentals.sum { |rental| rental.checked_out==false }
+      checked_out_rentals = all_rentals - checked_in_rentals
+
+      calculation = movie.calculate_checked_out_rentals
+
+      expect(calculation).must_equal checked_in_rentals
+
+    end
+  end
 
   # describe 'calculate_available_inventory' do
   #
