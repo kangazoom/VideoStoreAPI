@@ -21,6 +21,7 @@ class MoviesController < ApplicationController
 
   def create
     # TODO: validations for non-string entries
+    # TODO: move params to private for now
     movie = Movie.new(title: params[:title], release_date: params[:release_date], overview: params[:overview], inventory: params[:inventory])
 
     # TODO: uncomment below once we know more about rentals

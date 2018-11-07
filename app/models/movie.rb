@@ -1,5 +1,5 @@
 class Movie < ApplicationRecord
-  has_many :rentals
+  has_many :rentals, dependent: :delete_all
 
   validates :title, presence: true, uniqueness: { scope: :release_date }
 
@@ -22,4 +22,5 @@ class Movie < ApplicationRecord
     self.save
 
   end
+
 end
