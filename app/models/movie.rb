@@ -23,22 +23,23 @@ class Movie < ApplicationRecord
     available_inventory = total_inventory - rented_inventory
 
     if !(available_inventory >= 0)
-      # TODO: improve error handling here?
-      raise StandardError, "AVAILABLE INVENTORY CANNOT BE LESS THAN ZERO"
-    end
+      # We decided to return 0 in this case since if the value somehow dips below 0, then user shouldn't be able to rent this particular movie
+      return 0
+    else
 
-    return available_inventory
+      return available_inventory
+    end
   end
 
   def save_available_inventory(calculate_available_inventory)
-    available_inventory = calculate_available_inventory()
+    available_inventory = calculate_available_inventory
 
     self.available_inventory = available_inventory
-    # QUESTION: error handling for successful or failed save?
     result = self.save
 
     if !result
-      raise StandardError, "COULD NOT SAVE AVAILABLE INVENTORY"
+      # NOTE: this is for our benefit; not the user's - it is unlikely they will reach this point given safeguards in calculate_available_inventory.
+      raise StandardError, "Unable to save available inventory: must be a non-negative integer"
     end
 
     return result
