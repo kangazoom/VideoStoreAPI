@@ -10,13 +10,6 @@ describe Movie do
         rental.must_be_kind_of Rental
       end
     end
-
-    # it "has a list of renting customers" do
-    #   movie.rentals.must_respond_to :customers
-    #   movie.rentals.customers.each do |customer|
-    #     customer.must_be_kind_of Customer
-    #   end
-    # end
   end
 
   describe "validations" do
@@ -29,7 +22,7 @@ describe Movie do
     end
 
     it "requires unique titles within release dates" do
-      # movie.valid?.must_equal true
+      movie.valid?.must_equal true
 
       title = movie.title
       release_date = movie.release_date
@@ -41,21 +34,21 @@ describe Movie do
       movie2.errors.messages.must_include :title
     end
 
-    # it "does not require a unique title if the release date is different" do
-    #   title = movie.title
-    #
-    #   movie2 = Movie.new(title: title, release_date: '1977-11-08')
-    #   movie2.save
-    #   movie2.valid?.must_equal true
-    # end
+    it "does not require a unique title if the release date is different" do
+      title = movie.title
 
-    # it 'requires a non-negative inventory int value' do
-    #   movie.inventory = 1
-    #   movie.valid?.must_equal true
-    #
-    #   movie.inventory = 0
-    #   movie.valid?.must_equal true
-    # end
+      movie2 = Movie.new(title: title, release_date: '1977-11-08')
+      movie2.save
+      movie2.valid?.must_equal true
+    end
+
+    it 'approves a non-negative inventory int value' do
+      movie.inventory = 1
+      movie.valid?.must_equal true
+
+      movie.inventory = 0
+      movie.valid?.must_equal true
+    end
 
     it 'will not save a non-negative inventory int value' do
 
@@ -69,14 +62,14 @@ describe Movie do
       movie.valid?.must_equal false
     end
 
-    # it 'requires a non-negative available_inventory int value' do
-    #   movie.available_inventory = 1
-    #   movie.valid?.must_equal true
-    #
-    #   movie.available_inventory = 0
-    #   movie.valid?.must_equal true
-    #
-    # end
+    it 'approves a non-negative available_inventory int value' do
+      movie.available_inventory = 1
+      movie.valid?.must_equal true
+
+      movie.available_inventory = 0
+      movie.valid?.must_equal true
+
+    end
 
 
     it 'requires a non-negative available_inventory int value' do
@@ -167,7 +160,6 @@ describe 'calculate_available_inventory' do
 end
 
   describe 'save_available_inventory' do
-  # QUESION: improve error handling here?
   it 'can successfully save newly-assigned inventory value' do
     result = movie.save_available_inventory(0)
     expect(result).must_equal true
