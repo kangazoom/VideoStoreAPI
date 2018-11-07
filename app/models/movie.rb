@@ -30,7 +30,7 @@ class Movie < ApplicationRecord
     return available_inventory
   end
 
-  def save_available_inventory(calculate_available_inventory())
+  def save_available_inventory(calculate_available_inventory)
     available_inventory = calculate_available_inventory()
 
     self.available_inventory = available_inventory
