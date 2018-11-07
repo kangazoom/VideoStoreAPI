@@ -2,18 +2,27 @@ class Movie < ApplicationRecord
   has_many :rentals, dependent: :delete_all
 
   validates :title, presence: true, uniqueness: { scope: :release_date }
+  validates :inventory, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :available_inventory, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   # TODO: uncomment below once we know more about rentals
 
+  def calculate_checked_out_rentals()
+    rentals = self.rentals
+
+    rented_inventory = rentals.sum { |rental| rental.checkout==true }
+
+    return rented_inventory
+  end
 
   def calculate_available_inventory()
     total_inventory = self.inventory
     # QUESTION: will we be doing counter_cache?
-    rented_inventory = self.rentals.length
+    rented_inventory = calculate_checked_out_rentals()
 
     available_inventory = total_inventory - rented_inventory
 
-    if available_inventory < 0 || available_inventory.nil?
+    if !(available_inventory >= 0)
       # TODO: improve error handling here?
       raise StandardError, "AVAILABLE INVENTORY CANNOT BE LESS THAN ZERO"
     end

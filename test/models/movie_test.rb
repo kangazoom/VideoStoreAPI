@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe Movie do
-  let(:movie) (movies(:movie1)) #TODO: need to set up yaml
+  let(:movie) {movies(:movie1)}
 
   describe "relations" do
     it "has a list of rentals" do
@@ -49,74 +49,126 @@ describe Movie do
       movie2.save
       movie2.valid?.must_equal true
     end
+
+    it 'requires a non-negative inventory int value' do
+      movie.inventory = 1
+      movie.save
+      movie.valid?.must_equal true
+
+      movie.inventory = 0
+      movie.save
+      movie.valid?.must_equal true
+
+
+      movie.inventory = -1
+      movie.save
+      movie.valid?.must_equal false
+
+      movie.inventory = 1.5
+      movie.save
+      movie.valid?.must_equal false
+
+      movie.inventory = 'a'
+      movie.save
+      movie.valid?.must_equal false
+    end
+
+    it 'requires a non-negative available_inventory int value' do
+      movie.available_inventory = 1
+      movie.save
+      movie.valid?.must_equal true
+
+      movie.available_inventory = 0
+      movie.save
+      movie.valid?.must_equal true
+
+      movie.available_inventory = -1
+      movie.save
+      movie.valid?.must_equal false
+
+      movie.available_inventory = 1.5
+      movie.save
+      movie.valid?.must_equal false
+
+      movie.available_inventory = 'a'
+      movie.save
+      movie.valid?.must_equal false
+    end
   end
 
   # -- custom model methods -- #
+  # describe 'calculate_checked_out_rentals' do
+  #   it 'correctly calculates checked out rentals' do
+  #   end
+  #
+  #   it 'ignores checked in rental entries' do
+  #   end
+  # end
 
-  describe 'calculate_available_inventory' do
-
-    it 'correctly calculates available inventory when value is positive' do
-      total_inventory = movie.inventory
-      rented_inventory = movie.rentals.length
-
-      available_inventory = movie.calculate_available_inventory
-
-      expect(available_inventory).must_equal 2
-    end
-
-    it 'correctly calculates available inventory when value is zero' do
-      rented_inventory = movie.rentals.length
-      movie.inventory = rented_inventory
-
-      available_inventory = movie.calculate_available_inventory
-
-      expect(available_inventory).must_equal 0
-    end
-
-    it 'correctly calculates available inventory when total inventory is zero' do
-      movie.inventory = 0
-
-      available_inventory = movie.calculate_available_inventory
-
-      expect(available_inventory).must_equal 0
-    end
-
-    # it 'correctly calculates available inventory when rented inventory is zero' do
-    #   total_inventory = movie.inventory
-    #   rented_inventory = 0
-    #
-    #   available_inventory = total_inventory - rented_inventory
-    #
-    #   expect(available_inventory).must_equal total_inventory
-    # end
-
-    # QUESION: improve error handling here?
-    it 'throws an error if available_inventory falls below zero' do
-      movie.inventory = -100
-
-      available_inventory = movie.calculate_available_inventory
-
-      expect { available_inventory }.must_raise StandardError
-    end
-
-    describe 'save_available_inventory' do
-    # QUESION: improve error handling here?
-    it 'can successfully save newly-assigned inventory value' do
-      result = movie.save_available_inventory(0)
-      expect(result).must_equal true
-
-      result = movie.save_available_inventory(10)
-      expect(result).must_equal true
-    end
-
-    it 'throws an error if save is unsuccessful' do
-      result = movie.save_available_inventory('a')
-      expect { result }.must_raise StandardError
-
-      result = movie.save_available_inventory(-1)
-      expect { result }.must_raise StandardError
-    end
-
-
-  end
+  # describe 'calculate_available_inventory' do
+  #
+  #   it 'correctly calculates available inventory when value is positive' do
+  #     total_inventory = movie.inventory
+  #     rented_inventory = movie.rentals.length
+  #
+  #     available_inventory = movie.calculate_available_inventory
+  #
+  #     expect(available_inventory).must_equal 2
+  #   end
+  #
+  #   it 'correctly calculates available inventory when value is zero' do
+  #     rented_inventory = movie.rentals.length
+  #     movie.inventory = rented_inventory
+  #
+  #     available_inventory = movie.calculate_available_inventory
+  #
+  #     expect(available_inventory).must_equal 0
+  #   end
+  #
+  #   it 'correctly calculates available inventory when total inventory is zero' do
+  #     movie.inventory = 0
+  #
+  #     available_inventory = movie.calculate_available_inventory
+  #
+  #     expect(available_inventory).must_equal 0
+  #   end
+  #
+  #   # it 'correctly calculates available inventory when rented inventory is zero' do
+  #   #   total_inventory = movie.inventory
+  #   #   rented_inventory = 0
+  #   #
+  #   #   available_inventory = total_inventory - rented_inventory
+  #   #
+  #   #   expect(available_inventory).must_equal total_inventory
+  #   # end
+  #
+  #   # QUESION: improve error handling here?
+  #   it 'throws an error if available_inventory falls below zero' do
+  #     movie.inventory = -100
+  #
+  #     available_inventory = movie.calculate_available_inventory
+  #
+  #     expect { available_inventory }.must_raise StandardError
+  #   end
+  #
+  #   describe 'save_available_inventory' do
+  #   # QUESION: improve error handling here?
+  #   it 'can successfully save newly-assigned inventory value' do
+  #     result = movie.save_available_inventory(0)
+  #     expect(result).must_equal true
+  #
+  #     result = movie.save_available_inventory(10)
+  #     expect(result).must_equal true
+  #   end
+  #
+  #   it 'throws an error if save is unsuccessful' do
+  #     result = movie.save_available_inventory('a')
+  #     expect { result }.must_raise StandardError
+  #
+  #     result = movie.save_available_inventory(-1)
+  #     expect { result }.must_raise StandardError
+  #   end
+  #
+  #
+  # end
 end

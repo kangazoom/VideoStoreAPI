@@ -11,3 +11,9 @@ two:
   overview: Better Movie
   release_date: 2018-11-15
   inventory: 1
+
+movie1:
+  title: Something Scary
+  overview: Cool for Halloween
+  release_date: 1962-10-13
+  inventory: 1
