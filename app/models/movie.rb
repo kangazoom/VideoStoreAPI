@@ -10,7 +10,7 @@ class Movie < ApplicationRecord
   def calculate_checked_out_rentals()
     rentals = self.rentals
 
-    rented_inventory = rentals.sum { |rental| rental.checked_out==true }
+    rented_inventory = rentals.count { |rental| rental.checked_out? }
 
     return rented_inventory
   end
