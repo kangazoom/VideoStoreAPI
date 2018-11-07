@@ -4,10 +4,12 @@ one:
   title: GreatMovie
   overview: A really great movie
   release_date: 2018-11-05
-  inventory: 1
+  inventory: 10
+  available_inventory: 10
 
 two:
   title: Second Movie
   overview: Better Movie
   release_date: 2018-11-15
   inventory: 1
+  available_inventory: 1
