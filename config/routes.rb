@@ -7,5 +7,5 @@ Rails.application.routes.draw do
 
 
   post 'rentals/check-out', to: 'rentals#checkout', as: 'checkout'
-  patch 'rentals/:id/check-in', to: 'rentals#checkin', as: 'checkin'
+  post 'rentals/check-in', to: 'rentals#checkin', as: 'checkin'
 end
