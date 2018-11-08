@@ -25,6 +25,8 @@ class RentalsController < ApplicationController
         if rental.save
           inventory = movie.calculate_available_inventory()
           movie.save_available_inventory(inventory)
+          customer[:movies_checked_out_count] += 1
+          customer.save
           render json: rental.as_json(except: [:created_at, :updated_at]), status: :ok
         else
           render_error(:bad_request, rental.errors.messages)
@@ -45,6 +47,8 @@ class RentalsController < ApplicationController
       if rental.update(checkedout: false)
         inventory = movie.calculate_available_inventory()
         movie.save_available_inventory(inventory)
+        customer[:movies_checked_out_count] -= 1
+        customer.save
         render json: rental.as_json(except: [:created_at, :updated_at]), status: :ok
       else
         render_error(:not_found, rental.errors.messages)

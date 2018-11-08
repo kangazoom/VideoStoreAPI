@@ -15,6 +15,7 @@ describe RentalsController do
       must_respond_with :success
       expect(Movie.first.available_inventory).must_equal 0
       expect(Rental.last.checkedout).must_equal true
+      expect(Customer.first.movies_checked_out_count).must_equal 1
     end
 
 
@@ -43,7 +44,6 @@ describe RentalsController do
     expect(body).must_include "errors"
 
     must_respond_with :success
-
     end
   end
 
@@ -63,6 +63,7 @@ describe RentalsController do
       expect(body).must_be_kind_of Hash
       expect(body).must_include "id"
       expect(Rental.last.checkedout).must_equal false
+      expect(Customer.first.movies_checked_out_count).must_equal 0
       must_respond_with :success
     end
 
