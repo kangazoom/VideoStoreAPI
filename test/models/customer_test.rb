@@ -9,7 +9,7 @@ describe Customer do
 
   describe "relations" do
     it "has a list of rentals" do
-      customer = customers(:one)
+      customer = customers(:customer1)
       customer.must_respond_to :rentals
       customer.rentals.each do |rental|
         rental.must_be_kind_of Rental

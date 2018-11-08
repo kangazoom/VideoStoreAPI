@@ -5,7 +5,7 @@ describe RentalsController do
   describe "rentals checkout" do
     let(:rental_data) {
           {
-            movie_id: Movie.first.id,
+            movie_id: Movie.last.id,
             customer_id: Customer.first.id,
           }
         }
@@ -50,7 +50,7 @@ describe RentalsController do
   describe "rentals check_in" do
     let(:rental_data) {
           {
-            movie_id: Movie.first.id,
+            movie_id: Movie.last.id,
             customer_id: Customer.first.id,
           }
         }
@@ -68,7 +68,7 @@ describe RentalsController do
 
     it "successfully adds movie back to available inventory" do
       post checkout_path, params: rental_data
-      expect{post checkin_path, params: rental_data}.must_change "Movie.first.available_inventory", 1
+      expect{post checkin_path, params: rental_data}.must_change "Movie.last.available_inventory", +1
     end
 
     it "returns not found if trying to check in a movie without a valid customer or movie id" do
