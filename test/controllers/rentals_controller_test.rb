@@ -5,7 +5,7 @@ describe RentalsController do
   describe "rentals checkout" do
     let(:rental_data) {
           {
-            movie_id: Movie.first.id,
+            movie_id: Movie.last.id,
             customer_id: Customer.first.id,
           }
         }
@@ -15,6 +15,7 @@ describe RentalsController do
       must_respond_with :success
       expect(Movie.first.available_inventory).must_equal 0
       expect(Rental.last.checkedout).must_equal true
+      expect(Customer.first.movies_checked_out_count).must_equal 1
     end
 
 
@@ -43,14 +44,13 @@ describe RentalsController do
     expect(body).must_include "errors"
 
     must_respond_with :success
-
     end
   end
 
   describe "rentals check_in" do
     let(:rental_data) {
           {
-            movie_id: Movie.first.id,
+            movie_id: Movie.last.id,
             customer_id: Customer.first.id,
           }
         }
@@ -63,12 +63,13 @@ describe RentalsController do
       expect(body).must_be_kind_of Hash
       expect(body).must_include "id"
       expect(Rental.last.checkedout).must_equal false
+      expect(Customer.first.movies_checked_out_count).must_equal 0
       must_respond_with :success
     end
 
     it "successfully adds movie back to available inventory" do
       post checkout_path, params: rental_data
-      expect{post checkin_path, params: rental_data}.must_change "Movie.first.available_inventory", 1
+      expect{post checkin_path, params: rental_data}.must_change "Movie.last.available_inventory", +1
     end
 
     it "returns not found if trying to check in a movie without a valid customer or movie id" do
