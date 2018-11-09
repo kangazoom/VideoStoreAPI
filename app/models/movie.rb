@@ -3,9 +3,10 @@ class Movie < ApplicationRecord
 
   validates :title, presence: true, uniqueness: { scope: :release_date }
   validates :release_date, presence: true
+  validate :checks_valid_release_date
   validates :inventory, presence: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :available_inventory, numericality: { greater_than_or_equal_to: 0, only_integer: true }
-  validate :checks_valid_release_date
+
 
 
   def calculate_checked_out_rentals()

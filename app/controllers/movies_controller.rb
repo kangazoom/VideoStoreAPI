@@ -20,19 +20,7 @@ class MoviesController < ApplicationController
   end
 
   def create
-    # TODO: validations for non-string entries
-    # TODO: move params to private for now
-
-    # TODO: this is a band-aid... should find a better solution...
-    # if params[:inventory].blank? || params[:inventory].nil?
-    #   params[:inventory] = 0
-    # end
-
-    movie = Movie.new(title: params[:title], release_date: params[:release_date], overview: params[:overview], inventory: params[:inventory])
-
-    # new movies have inventory and available_inventory of 0
-    # avail = movie.calculate_available_inventory
-    # result = movie.save_available_inventory(avail)
+    movie = Movie.new(movie_params)
 
     result = movie.save
     if result
@@ -44,8 +32,8 @@ class MoviesController < ApplicationController
   end
 
   private
-  # def movie_params
-  #   params.require(:movie).permit(:id, :title, :overview, :release_date, :inventory)
-  # end
+  def movie_params
+    params.permit(:id, :title, :overview, :release_date, :inventory)
+  end
 
 end

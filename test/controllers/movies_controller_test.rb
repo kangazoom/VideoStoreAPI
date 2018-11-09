@@ -57,7 +57,8 @@ describe MoviesController do
     let(:movie_data) {
           {
             title: 'good new movie',
-            inventory: 3
+            inventory: 3,
+            release_date: '1983-09-09'
           }
         }
 
