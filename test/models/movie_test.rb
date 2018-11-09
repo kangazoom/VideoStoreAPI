@@ -50,6 +50,12 @@ describe Movie do
       movie.valid?.must_equal true
     end
 
+    it "requires an inventory" do
+      movie.inventory = nil
+      movie.valid?.must_equal false
+      movie.errors.messages.must_include :inventory
+    end
+
     it 'will not save a non-negative inventory int value' do
 
       movie.inventory = -1

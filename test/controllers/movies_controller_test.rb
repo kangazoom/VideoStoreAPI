@@ -56,7 +56,8 @@ describe MoviesController do
   describe "create" do
     let(:movie_data) {
           {
-            title: 'good new movie'
+            title: 'good new movie',
+            inventory: 3
           }
         }
 

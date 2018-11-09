@@ -2,7 +2,7 @@ class Movie < ApplicationRecord
   has_many :rentals, dependent: :delete_all
 
   validates :title, presence: true, uniqueness: { scope: :release_date }
-  validates :inventory, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :inventory, presence: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :available_inventory, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   # TODO: uncomment below once we know more about rentals

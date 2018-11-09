@@ -24,9 +24,9 @@ class MoviesController < ApplicationController
     # TODO: move params to private for now
 
     # TODO: this is a band-aid... should find a better solution...
-    if params[:inventory].blank? || params[:inventory].nil?
-      params[:inventory] = 0
-    end
+    # if params[:inventory].blank? || params[:inventory].nil?
+    #   params[:inventory] = 0
+    # end
 
     movie = Movie.new(title: params[:title], release_date: params[:release_date], overview: params[:overview], inventory: params[:inventory])
 
