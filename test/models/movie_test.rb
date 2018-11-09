@@ -13,8 +13,10 @@ describe Movie do
   end
 
   describe "validations" do
+
+    # -- title -- #
     it "requires a title" do
-      # movie.valid?.must_equal true
+      movie.valid?.must_equal true
 
       movie.title = nil
       movie.valid?.must_equal false
@@ -42,12 +44,20 @@ describe Movie do
       movie2.valid?.must_equal true
     end
 
+    # -- inventory -- #
+
     it 'approves a non-negative inventory int value' do
       movie.inventory = 1
       movie.valid?.must_equal true
 
       movie.inventory = 0
       movie.valid?.must_equal true
+    end
+
+    it "requires an inventory" do
+      movie.release_date = nil
+      movie.valid?.must_equal false
+      movie.errors.messages.must_include :release_date
     end
 
     it 'will not save a non-negative inventory int value' do
@@ -62,19 +72,17 @@ describe Movie do
       movie.valid?.must_equal false
     end
 
+    # -- available_inventory -- #
+
     it 'approves a non-negative available_inventory int value' do
       movie.available_inventory = 1
       movie.valid?.must_equal true
 
       movie.available_inventory = 0
       movie.valid?.must_equal true
-
     end
 
-
     it 'requires a non-negative available_inventory int value' do
-
-
       movie.available_inventory = -1
       movie.valid?.must_equal false
 
@@ -83,6 +91,20 @@ describe Movie do
 
       movie.available_inventory = 'a'
       movie.valid?.must_equal false
+    end
+
+    # -- release_date -- #
+
+    it "requires a release date" do
+      movie.release_date = nil
+      movie.valid?.must_equal false
+      movie.errors.messages.must_include :release_date
+    end
+
+    it "will not accept invalid release dates" do
+      movie.release_date = '2003'
+      movie.valid?.must_equal false
+      movie.errors.messages.must_include :release_date
     end
   end
 
@@ -112,15 +134,15 @@ it 'ignores checked in rental entries' do
   }
 )
 
-  all_rentals = movie.rentals.length
-  checked_in_rentals = movie.rentals.count { |rental| !rental.checked_out? }
-  checked_out_rentals = all_rentals - checked_in_rentals
+all_rentals = movie.rentals.length
+checked_in_rentals = movie.rentals.count { |rental| !rental.checked_out? }
+checked_out_rentals = all_rentals - checked_in_rentals
 
-  calculation = movie.calculate_checked_out_rentals
+calculation = movie.calculate_checked_out_rentals
 
-  expect(calculation).must_equal checked_out_rentals
+expect(calculation).must_equal checked_out_rentals
 
-  end
+end
 end
 
 describe 'calculate_available_inventory' do
@@ -135,7 +157,7 @@ describe 'calculate_available_inventory' do
 
     expect(calculation).must_equal available_inventory
   end
-#
+  #
   it 'correctly calculates available inventory when value is zero' do
     rented_inventory = movie.calculate_checked_out_rentals()
 
@@ -159,7 +181,7 @@ describe 'calculate_available_inventory' do
   end
 end
 
-  describe 'save_available_inventory' do
+describe 'save_available_inventory' do
   it 'can successfully save newly-assigned inventory value' do
     result = movie.save_available_inventory(0)
     expect(result).must_equal true

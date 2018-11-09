@@ -2,10 +2,12 @@ class Movie < ApplicationRecord
   has_many :rentals, dependent: :delete_all
 
   validates :title, presence: true, uniqueness: { scope: :release_date }
-  validates :inventory, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :release_date, presence: true
+  validate :checks_valid_release_date
+  validates :inventory, presence: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :available_inventory, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
-  # TODO: uncomment below once we know more about rentals
+
 
   def calculate_checked_out_rentals()
     rentals = self.rentals
@@ -45,4 +47,11 @@ class Movie < ApplicationRecord
     return result
   end
 
+  def checks_valid_release_date
+    if !release_date.nil?
+      if !release_date.is_a?(Date)
+        errors.add(:release_date, "Invalid release date. Must be in the format: YYYY-MM-DD")
+      end
+    end
+  end
 end
